@@ -11,10 +11,11 @@
         </div>
 
         <div class="row list">
-            <div class="col-md-12 col-lg-push-2">
+            <div class="col-md-6 col-sm-push-2">
                 <asp:Label ID="lblMessage" runat="server" Text="" EnableViewState="false" ForeColor="#FF3333"></asp:Label>
             </div>
         </div>
+
         <div class="row country">
             <div class="col-md-4 col-sm-push-2">
                 <strong style="color: red;">*</strong>Country :
@@ -40,14 +41,26 @@
                 <asp:DropDownList ID="ddlCity" runat="server" CssClass="form-control"></asp:DropDownList>
             </div>
         </div>
-        <div class="row country">
+
+        <%--<div class="row country">
             <div class="col-md-4 col-sm-push-2">
                 <strong style="color: red;">*</strong>Contact Category :
             </div>
             <div class="col-md-6">
                 <asp:DropDownList ID="ddlContactCategory" runat="server" CssClass="form-control"></asp:DropDownList>
             </div>
+        </div>--%>
+
+        <div class="row country">
+            <div class="col-md-4 col-sm-push-2">
+                <strong style="color: red;">*</strong>Contact Category :
+                        <br />
+            </div>
+            <div class="col-md-4">
+                <asp:CheckBoxList ID="cblContactCategory" runat="server"></asp:CheckBoxList>
+            </div>
         </div>
+
         <div class="row country">
             <div class="col-md-4 col-sm-push-2">
                 <strong style="color: red;">*</strong>Contact Name :

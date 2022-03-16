@@ -32,7 +32,7 @@
                         <asp:BoundField DataField="CountryName" HeaderText="Country" />
                         <asp:BoundField DataField="StateName" HeaderText="State" />
                         <asp:BoundField DataField="CityName" HeaderText="City" />
-                        <asp:BoundField DataField="ContactCategoryName" HeaderText="Contact Category" />
+                        <%--<asp:BoundField DataField="ContactCategoryName" HeaderText="Contact Category" />--%>
                         <asp:BoundField DataField="ContactName" HeaderText="Contact Name" />
                         <asp:BoundField DataField="ContactNumber" HeaderText="Number" />
                         <asp:BoundField DataField="WhatsAppNumber" HeaderText="WhatsApp Number" />
@@ -46,14 +46,16 @@
                         <%--<asp:BoundField DataField="ContactPhotoPath" HeaderText="Photo" />--%>
                         <asp:Templatefield HeaderText="Photo">
                             <ItemTemplate>
-                                <asp:Image runat="server" id="ContactPhotoPath" ImageURL='<%# Eval("ContactPhotoPath") %>' Height="100"/>
+                                <asp:Image runat="server" ID="ContactPhotoPath" ImageURL='<%# Eval("ContactPhotoPath") %>' Height="100"/>
                             </ItemTemplate>
                         </asp:Templatefield>
 
                         <asp:TemplateField HeaderText="Action">
                             <ItemTemplate>
-                                <asp:HyperLink ID="HyperLink1" runat="server" CssClass="btn btn-primary btn-sm" NavigateUrl='<%# "~/AdminPanel/Contact/ContactAddEdit.aspx?ContactID=" + Eval("ContactID").ToString() %>'>Edit</asp:HyperLink>
+                                <div style="width:150px;">
+                                    <asp:HyperLink ID="HyperLink1" runat="server" CssClass="btn btn-primary btn-sm" NavigateUrl='<%# "~/AdminPanel/Contact/ContactAddEdit.aspx?ContactID=" + Eval("ContactID").ToString() %>'>Edit</asp:HyperLink>&nbsp;&nbsp;&nbsp;&nbsp;
                                 <asp:Button runat="server" ID="btnDelete" Text="Delete" CommandName="DeleteRecord" CssClass="btn btn-danger btn-sm" CommandArgument='<%# Eval("ContactID").ToString() %>' />
+                                </div>
                             </ItemTemplate>
                         </asp:TemplateField>
                     </Columns>

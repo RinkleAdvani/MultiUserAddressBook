@@ -10,7 +10,6 @@
             </div>
         </div>
 
-
         <div class="row list">
             <div class="col-md-12 col-lg-push-2">
                 <asp:Label ID="lblMessage" runat="server" Text="" EnableViewState="false" ForeColor="#FF3333"></asp:Label>

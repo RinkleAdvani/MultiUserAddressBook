@@ -18,6 +18,7 @@ public partial class AdminPanel_Contact_ContactAddEdit : System.Web.UI.Page
         if (!Page.IsPostBack)
         {
             FillDropDown();
+            FillCBLContactCategory();
 
             if (Request.QueryString["ContactId"] != null)
             {
@@ -89,24 +90,24 @@ public partial class AdminPanel_Contact_ContactAddEdit : System.Web.UI.Page
             //}
             //objSDR2.Close();
 
-            objCom.CommandText = "PR_ContactCategory_SelectByDropDownList";
+            //objCom.CommandText = "PR_ContactCategory_SelectByDropDownList";
 
-            SqlDataReader objSDR3 = objCom.ExecuteReader();
-            //objSDR3.Read();
-            if (objSDR3.HasRows == true)
-            {
-                ddlContactCategory.DataSource = objSDR3;
-                ddlContactCategory.DataValueField = "ContactCategoryID";
-                ddlContactCategory.DataTextField = "ContactCategoryName";
-                ddlContactCategory.DataBind();
-            }
-            objSDR3.Close();
+            //SqlDataReader objSDR3 = objCom.ExecuteReader();
+            ////objSDR3.Read();
+            //if (objSDR3.HasRows == true)
+            //{
+            //    ddlContactCategory.DataSource = objSDR3;
+            //    ddlContactCategory.DataValueField = "ContactCategoryID";
+            //    ddlContactCategory.DataTextField = "ContactCategoryName";
+            //    ddlContactCategory.DataBind();
+            //}
+            //objSDR3.Close();
             #endregion Read the Values and Set the Controls
 
             objCon.Close();
 
             ddlCountry.Items.Insert(0, new ListItem("---- Select Country ----", "-1"));
-            ddlContactCategory.Items.Insert(0, new ListItem("---- Select Country ----", "-1"));
+            //ddlContactCategory.Items.Insert(0, new ListItem("---- Select Country ----", "-1"));
             ddlState.Items.Insert(0, new ListItem("---- Select State ----", "-1"));
             ddlCity.Items.Insert(0, new ListItem("---- Select City ----", "-1"));
 
@@ -232,10 +233,10 @@ public partial class AdminPanel_Contact_ContactAddEdit : System.Web.UI.Page
                     {
                         ddlCity.SelectedValue = objSDR["CityID"].ToString().Trim();
                     }
-                    if (!objSDR["ContactCategoryID"].Equals(DBNull.Value))
-                    {
-                        ddlContactCategory.SelectedValue = objSDR["ContactCategoryID"].ToString().Trim();
-                    }
+                    //if (!objSDR["ContactCategoryID"].Equals(DBNull.Value))
+                    //{
+                    //    ddlContactCategory.SelectedValue = objSDR["ContactCategoryID"].ToString().Trim();
+                    //}
                     if (!objSDR["ContactName"].Equals(DBNull.Value))
                     {
                         txtContactName.Text = objSDR["ContactName"].ToString().Trim();
@@ -276,6 +277,10 @@ public partial class AdminPanel_Contact_ContactAddEdit : System.Web.UI.Page
                     {
                         txtLinkedIn.Text = objSDR["LinkedINID"].ToString().Trim();
                     }
+                    //if (!objSDR["ContactPhotoPath"].Equals(DBNull.Value))
+                    //{
+                    //    fuContactPhotoPath.
+                    //}
                     break;
                 }
             }
@@ -319,7 +324,7 @@ public partial class AdminPanel_Contact_ContactAddEdit : System.Web.UI.Page
         SqlInt32 strCountry = SqlInt32.Null;
         SqlInt32 strState = SqlInt32.Null;
         SqlInt32 strCity = SqlInt32.Null;
-        SqlInt32 strContactCategory = SqlInt32.Null;
+        //SqlInt32 strContactCategory = SqlInt32.Null;
         SqlString strContactName = SqlString.Null;
         SqlString strContactNumber = SqlString.Null;
         SqlString strWhatsApp = SqlString.Null;
@@ -330,6 +335,7 @@ public partial class AdminPanel_Contact_ContactAddEdit : System.Web.UI.Page
         SqlString strBloodGroup = SqlString.Null;
         SqlString strFacebookID = SqlString.Null;
         SqlString strLinkedInID = SqlString.Null;
+        SqlString strImage = SqlString.Null;
         #endregion Local Variables
 
         try
@@ -349,10 +355,10 @@ public partial class AdminPanel_Contact_ContactAddEdit : System.Web.UI.Page
             {
                 strErrorMessage += "- Select City  <br/>";
             }
-            if (ddlContactCategory.SelectedIndex == 0)
-            {
-                strErrorMessage += "- Select ContactCategory  <br/>";
-            }
+            //if (ddlContactCategory.SelectedIndex == 0)
+            //{
+            //    strErrorMessage += "- Select ContactCategory  <br/>";
+            //}
             if (txtContactName.Text.Trim() == "")
             {
                 strErrorMessage += "- Enter Contact Name  <br/>";
@@ -368,6 +374,10 @@ public partial class AdminPanel_Contact_ContactAddEdit : System.Web.UI.Page
             if (txtAddress.Text.Trim() == "")
             {
                 strErrorMessage += "- Enter Address  <br/>";
+            }
+            if (!fuContactPhotoPath.HasFile)
+            {
+                strErrorMessage += "- Upload Your Image <br/>";
             }
             if (strErrorMessage.Trim() != "")
             {
@@ -389,10 +399,10 @@ public partial class AdminPanel_Contact_ContactAddEdit : System.Web.UI.Page
             {
                 strCity = Convert.ToInt32(ddlCity.SelectedValue);
             }
-            if (ddlContactCategory.SelectedIndex > 0)
-            {
-                strContactCategory = Convert.ToInt32(ddlContactCategory.SelectedValue);
-            }
+            //if (ddlContactCategory.SelectedIndex > 0)
+            //{
+            //    strContactCategory = Convert.ToInt32(ddlContactCategory.SelectedValue);
+            //}
             if (txtContactName.Text.Trim() != "")
             {
                 strContactName = txtContactName.Text.Trim();
@@ -400,7 +410,7 @@ public partial class AdminPanel_Contact_ContactAddEdit : System.Web.UI.Page
             if (txtContactNumber.Text.Trim() != "")
             {
                 strContactNumber = txtContactNumber.Text.Trim();
-            }
+            }   
             if (txtWhatsApp.Text.Trim() != "")
             {
                 strWhatsApp = txtWhatsApp.Text.Trim();
@@ -433,11 +443,11 @@ public partial class AdminPanel_Contact_ContactAddEdit : System.Web.UI.Page
             {
                 strLinkedInID = txtLinkedIn.Text.Trim();
             }
-            string ContactPhotoPath = "";
             if (fuContactPhotoPath.HasFile)
             {
-                ContactPhotoPath = "~/User_Content/" + fuContactPhotoPath.FileName.ToString().Trim();
-                fuContactPhotoPath.SaveAs(Server.MapPath(ContactPhotoPath) + fuContactPhotoPath.FileName.ToString().Trim());
+                strImage = "~/User_Content/" + fuContactPhotoPath.FileName;
+                //ContactPhotoPath = "~/User_Content/" + fuContactPhotoPath.FileName.ToString().Trim();
+                fuContactPhotoPath.SaveAs(Server.MapPath(strImage.ToString()));
             }
             #endregion Gather Information
 
@@ -452,7 +462,7 @@ public partial class AdminPanel_Contact_ContactAddEdit : System.Web.UI.Page
             objCmd.Parameters.AddWithValue("@CountryID", strCountry);                                         		
             objCmd.Parameters.AddWithValue("@StateID", strState);                                                        			
             objCmd.Parameters.AddWithValue("@CityID", strCity);                                                          	
-            objCmd.Parameters.AddWithValue("@ContactCategoryID", strContactCategory);                                    
+            //objCmd.Parameters.AddWithValue("@ContactCategoryID", strContactCategory);                                    
             objCmd.Parameters.AddWithValue("@ContactName", strContactName);                                            	
             objCmd.Parameters.AddWithValue("@ContactNumber", strContactNumber);                                          
             objCmd.Parameters.AddWithValue("@WhatsAppNumber", strWhatsApp);                                              
@@ -463,7 +473,9 @@ public partial class AdminPanel_Contact_ContactAddEdit : System.Web.UI.Page
             objCmd.Parameters.AddWithValue("@BloodGroup", strBloodGroup);                                                
             objCmd.Parameters.AddWithValue("@FacebookID", strFacebookID);
             objCmd.Parameters.AddWithValue("@LinkedINID", strLinkedInID);
-            objCmd.Parameters.AddWithValue("@ContactPhotoPath", ContactPhotoPath);                                                	
+            objCmd.Parameters.AddWithValue("@ContactPhotoPath", strImage);            
+            
+           
             #endregion Add Parameters                                                                                    	
 
             if (Request.QueryString["ContactID"] != null)
@@ -481,11 +493,38 @@ public partial class AdminPanel_Contact_ContactAddEdit : System.Web.UI.Page
                 {
                     objCmd.Parameters.AddWithValue("@UserID", Session["UserID"]);
                 }
+
+                //Out Parameter
+                objCmd.Parameters.Add("@ContactID", SqlDbType.Int, 4).Direction = ParameterDirection.Output;
+                //objCmd.Parameters["@ContactID"].Direction = ParameterDirection.Output;
                 objCmd.ExecuteNonQuery();
+
+
+                SqlInt32 ContactID = 0;
+                ContactID = Convert.ToInt32(objCmd.Parameters["@ContactID"].Value);
+
+                foreach(ListItem liContactCategoryID in cblContactCategory.Items)
+                {
+                    if (liContactCategoryID.Selected)
+                    {
+                        SqlCommand objCmdContactcategory = objConn.CreateCommand();
+                        objCmdContactcategory.CommandType = CommandType.StoredProcedure;
+                        objCmdContactcategory.CommandText = "[dbo].[ContactWiseContactCategory_Insert]";
+                        if (Session["UserID"] != null)
+                        {
+                            objCmd.Parameters.AddWithValue("@UserID", Session["UserID"]);
+                        }
+                        objCmd.Parameters.AddWithValue("@ContactID", ContactID.ToString());
+                        objCmd.Parameters.AddWithValue("ContactCategoryID", liContactCategoryID.Value.ToString());
+                        objCmdContactcategory.ExecuteNonQuery();
+                    }
+                }
+
+                objConn.Close();
                 ddlCountry.SelectedIndex = 0;
                 ddlState.SelectedIndex = 0;
                 ddlCity.SelectedIndex = 0;
-                ddlContactCategory.SelectedIndex = 0;
+                //ddlContactCategory.SelectedIndex = 0;
                 txtContactName.Text = "";
                 txtAddress.Text = "";
                 txtAge.Text = "";
@@ -497,7 +536,7 @@ public partial class AdminPanel_Contact_ContactAddEdit : System.Web.UI.Page
                 txtLinkedIn.Text = "";
                 txtWhatsApp.Text = "";
                 ddlCountry.Focus();
-                lblMessage.Text = "Data Inserted Successfully";
+                lblMessage.Text = "Data Inserted Successfully <br /> ContactID = " + ContactID.ToString();
             }
             objConn.Close();
         }
@@ -519,4 +558,38 @@ public partial class AdminPanel_Contact_ContactAddEdit : System.Web.UI.Page
         Response.Redirect("~/AdminPanel/Contact/ContactList.aspx", true);
     }
     #endregion Button: Cancel
+
+    #region Fill CheckBoxList ContactCategory
+    private void FillCBLContactCategory()
+    {
+        SqlConnection objCon = new SqlConnection(ConfigurationManager.ConnectionStrings["AddressBook2ConnectionString"].ConnectionString);
+        try
+        {
+            objCon.Open();
+            SqlCommand objCom = objCon.CreateCommand();
+            objCom.CommandType=CommandType.StoredProcedure;
+            objCom.CommandText = "[dbo].[PR_ContactCategory_SelectByDropDownList]";
+            SqlDataReader objSDR = objCom.ExecuteReader();
+
+            if (objSDR.HasRows)
+            {
+                cblContactCategory.DataTextField = "ContactCategoryName";
+                cblContactCategory.DataValueField = "ContactCategoryID";
+                cblContactCategory.DataSource = objSDR;
+                cblContactCategory.DataBind();
+             }
+        }
+        catch(Exception ex)
+        {
+            lblMessage.Text = ex.Message;
+        }
+        finally
+        {
+            if (objCon.State == ConnectionState.Open)
+            {
+                objCon.Close();
+            }
+        }
+    }
+    #endregion Fill CheckBoxList ContactCategory
 }

@@ -209,7 +209,7 @@ public partial class AdminPanel_City_CityAddEdit : System.Web.UI.Page
             objCmd.Parameters.AddWithValue("@CountryID", strCountryID);
             objCmd.Parameters.AddWithValue("@CityName", strCityName);
             objCmd.Parameters.AddWithValue("@STDCode", strPinCode);
-            objCmd.Parameters.AddWithValue("@PinCode", strPinCode);
+            objCmd.Parameters.AddWithValue("@PinCode", strSTDCode);
             #endregion Add Parameters
 
             if (Request.QueryString["CityID"] != null)
