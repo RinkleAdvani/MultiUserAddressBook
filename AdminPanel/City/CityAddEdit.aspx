@@ -16,6 +16,12 @@
             </div>
         </div>
 
+        <div class="row list">
+            <div class="col-md-12 col-lg-push-2">
+                <asp:Label ID="lblMsg" runat="server" Text="" EnableViewState="false" ForeColor="green"></asp:Label>
+            </div>
+        </div>
+
         <div class="row country">
             <div class="col-md-4 col-sm-push-2">
                 <strong style="color:red;">*</strong>Country :

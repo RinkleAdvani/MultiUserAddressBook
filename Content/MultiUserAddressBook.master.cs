@@ -11,7 +11,7 @@ public partial class Content_MultiUserAddressBook : System.Web.UI.MasterPage
     {
         if (Session["UserID"] == null)
         {
-            Response.Redirect("~/AdminPanel/Login.aspx", true);
+            Response.Redirect("~/AdminPanel/Login", true);
         }
 
         if (!Page.IsPostBack)
@@ -25,6 +25,6 @@ public partial class Content_MultiUserAddressBook : System.Web.UI.MasterPage
     protected void lbtnLogOut_Click(object sender, EventArgs e)
     {
         Session.Clear();
-        Response.Redirect("~/AdminPanel/Login.aspx", true);
+        Response.Redirect("~/AdminPanel/Login", true);
     }
 }

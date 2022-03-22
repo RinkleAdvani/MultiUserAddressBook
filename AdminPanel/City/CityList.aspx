@@ -13,7 +13,7 @@
 
         <div class="row">
             <div class="col-md-6" style="margin-left: 180px; margin-bottom: 25px;">
-                <asp:HyperLink ID="hlAdd" runat="server" NavigateUrl="~/AdminPanel/City/CityAddEdit.aspx" CssClass="btn btn-md btn-primary" >Add City</asp:HyperLink>
+                <asp:HyperLink ID="hlAdd" runat="server" NavigateUrl="~/AdminPanel/City/Add" CssClass="btn btn-md btn-primary" >Add City</asp:HyperLink>
             </div>
         </div>
 
@@ -37,7 +37,7 @@
 
                         <asp:TemplateField HeaderText="Action">
                             <ItemTemplate>
-                                <asp:HyperLink ID="hlEdit" runat="server" CssClass="btn btn-primary btn-sm" NavigateUrl='<%# "~/AdminPanel/City/CityAddEdit.aspx?CityID=" + Eval("CityID").ToString() %>'>Edit</asp:HyperLink>
+                                <asp:HyperLink ID="hlEdit" runat="server" CssClass="btn btn-primary btn-sm" NavigateUrl='<%# "~/AdminPanel/City/Edit/" + Eval("CityID").ToString() %>'>Edit</asp:HyperLink>
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                 <asp:Button ID="btnDelete" runat="server" Text="Delete" CssClass="btn btn-danger btn-sm" CommandName="DeleteRecord" CommandArgument='<%# Eval("CityID").ToString() %>' />
                             </ItemTemplate>

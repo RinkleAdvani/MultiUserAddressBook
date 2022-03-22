@@ -13,7 +13,7 @@
 
         <div class="row">
             <div class="col-md-6" style="margin-left: 383px; margin-bottom: 25px;">
-                <asp:HyperLink ID="hlAdd" runat="server" NavigateUrl="~/AdminPanel/ContactCategory/ContactCategoryAddEdit.aspx" CssClass="btn btn-md btn-primary">Add Contact Category</asp:HyperLink>
+                <asp:HyperLink ID="hlAdd" runat="server" NavigateUrl="~/AdminPanel/ContactCategory/Add" CssClass="btn btn-md btn-primary">Add Contact Category</asp:HyperLink>
             </div>
         </div>
 
@@ -32,7 +32,7 @@
                             <asp:TemplateField HeaderText="Action">
                                 <ItemTemplate>
 
-                                    <asp:HyperLink ID="hlEdit" runat="server" CssClass="btn btn-primary btn-sm" NavigateUrl='<%# "~/AdminPanel/ContactCategory/ContactCategoryAddEdit.aspx?ContactCategoryID=" + Eval("ContactCategoryID").ToString() %>'>Edit</asp:HyperLink>
+                                    <asp:HyperLink ID="hlEdit" runat="server" CssClass="btn btn-primary btn-sm" NavigateUrl='<%# "~/AdminPanel/ContactCategory/Edit/" + Eval("ContactCategoryID").ToString() %>'>Edit</asp:HyperLink>
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                     <asp:Button ID="btnDelete" runat="server" Text="Delete" CommandName="DeleteRecord" CssClass="btn btn-sm btn-danger" CommandArgument='<%# Eval("ContactCategoryID").ToString() %>' />
                                 </ItemTemplate>

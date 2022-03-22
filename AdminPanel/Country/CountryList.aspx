@@ -13,7 +13,7 @@
 
         <div class="row">
             <div class="col-md-12 add">
-                <asp:HyperLink ID="hlAdd" runat="server" NavigateUrl="~/AdminPanel/Country/CountryAddEdit.aspx" CssClass="btn btn-sm btn-primary">Add Country</asp:HyperLink>
+                <asp:HyperLink ID="hlAdd" runat="server" NavigateUrl="~/AdminPanel/Country/Add" CssClass="btn btn-sm btn-primary">Add Country</asp:HyperLink>
             </div>
         </div>
         <br />
@@ -32,7 +32,7 @@
                         <asp:BoundField DataField="CountryCode" HeaderText="Code" />
                         <asp:TemplateField HeaderText="Action">
                             <ItemTemplate>
-                                <asp:HyperLink ID="hlEdit" runat="server" Text="Edit" CssClass="btn btn-sm btn-primary" NavigateUrl='<%# "~/AdminPanel/Country/CountryAddEdit.aspx?CountryID=" + Eval("CountryID").ToString() %>'></asp:HyperLink>
+                                <asp:HyperLink ID="hlEdit" runat="server" Text="Edit" CssClass="btn btn-sm btn-primary" NavigateUrl='<%# "~/AdminPanel/Country/Edit/" + Eval("CountryID").ToString() %>'></asp:HyperLink>
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             <asp:Button ID="btnDelete" runat="server" Text="Delete" CssClass="btn btn-sm btn-danger" CommandName="DeleteRecord" CommandArgument='<%# Eval("CountryID").ToString() %>'></asp:Button>
                             </ItemTemplate>

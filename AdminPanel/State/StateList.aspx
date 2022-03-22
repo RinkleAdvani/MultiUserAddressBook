@@ -13,7 +13,7 @@
 
         <div class="row">
             <div class="col-md-6" style="margin-left: 270px;margin-bottom: 25px">
-                <asp:HyperLink ID="hlAdd" runat="server" NavigateUrl="~/AdminPanel/State/StateAddEdit.aspx" CssClass="btn btn-md btn-primary" >Add State</asp:HyperLink>
+                <asp:HyperLink ID="hlAdd" runat="server" NavigateUrl="~/AdminPanel/State/Add" CssClass="btn btn-md btn-primary" >Add State</asp:HyperLink>
             </div>
         </div>
 
@@ -41,7 +41,9 @@
                         <asp:BoundField DataField="StateCode" HeaderText="Code" />
                         <asp:TemplateField HeaderText="Action">
                             <ItemTemplate>
-                                <asp:HyperLink runat="server" ID="hlEdit" Text="Edit" CssClass="btn btn-primary btn-sm" NavigateUrl='<%# "~/AdminPanel/State/StateAddEdit.aspx?StateID=" + Eval("StateID").ToString() %>' />
+                                <%--<asp:HyperLink runat="server" ID="hlEdit" Text="Edit" CssClass="btn btn-primary btn-sm" NavigateUrl='<%# "~/AdminPanel/State/StateAddEdit.aspx?StateID=" + Eval("StateID").ToString() %>' />--%>
+
+                                <asp:HyperLink runat="server" ID="hlEdit" Text="Edit" CssClass="btn btn-primary btn-sm" NavigateUrl='<%# "~/AdminPanel/State/Edit/" + Eval("StateID").ToString() %>' />
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                 <asp:Button runat="server" ID="btnDelete" Text="Delete" CssClass="btn btn-danger btn-sm" CommandName="DeleteRecord" CommandArgument='<%# Eval("StateID").ToString() %>' />
 

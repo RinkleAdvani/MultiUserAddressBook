@@ -18,11 +18,11 @@ public partial class AdminPanel_City_CityAddEdit : System.Web.UI.Page
         {
             FillDropDownList();
 
-            if (Request.QueryString["CityId"] != null)
+            if (Page.RouteData.Values["CityId"] != null)
             {
                 btnSave.Text = "Update";
                 //lblMessage.Text += "Edit mode | CityID = " + Request.QueryString["CityId"];
-                FillControls(Convert.ToInt32(Request.QueryString["CityId"]));
+                FillControls(Convert.ToInt32(Page.RouteData.Values["CityId"]));
             }
         }
     }
@@ -31,47 +31,51 @@ public partial class AdminPanel_City_CityAddEdit : System.Web.UI.Page
     #region Fill Drop Down
     private void FillDropDownList()
     {
-        SqlConnection objCon = new SqlConnection(ConfigurationManager.ConnectionStrings["AddressBook2ConnectionString"].ConnectionString);
-        try
-        {
-            if (objCon.State == ConnectionState.Closed)
-                objCon.Open();
-            #region Set Connection and Command Objects
 
-            SqlCommand objCom = objCon.CreateCommand();
-            objCom.CommandType = CommandType.StoredProcedure;
-            objCom.CommandText = "[dbo].[PR_Country_SelectForDropDownList]";
+        CommonDropDownFillMethods.FillDropDownListCountry(ddlCountryID);
+        CommonDropDownFillMethods.FillDropDownListStateByCountryID(ddlStateID, ddlCountryID);
 
-            #endregion Set Connection and Command Objects
-            SqlDataReader objSDR = objCom.ExecuteReader();
+        //SqlConnection objCon = new SqlConnection(ConfigurationManager.ConnectionStrings["AddressBook2ConnectionString"].ConnectionString);
+        //try
+        //{
+        //    if (objCon.State == ConnectionState.Closed)
+        //        objCon.Open();
+        //    #region Set Connection and Command Objects
 
-            //objSDR.Read();
+        //    SqlCommand objCom = objCon.CreateCommand();
+        //    objCom.CommandType = CommandType.StoredProcedure;
+        //    objCom.CommandText = "[dbo].[PR_Country_SelectForDropDownList]";
 
-            #region Read the Values and Set the Controls
+        //    #endregion Set Connection and Command Objects
+        //    SqlDataReader objSDR = objCom.ExecuteReader();
 
-            if (objSDR.HasRows == true)
-            {
-                ddlCountryID.DataSource = objSDR;
-                ddlCountryID.DataValueField = "CountryID";
-                ddlCountryID.DataTextField = "CountryName";
-                ddlCountryID.DataBind();
-            }
-            objSDR.Close();
+        //    //objSDR.Read();
 
-            #endregion Read the Values and Set the Controls
+        //    #region Read the Values and Set the Controls
 
-            ddlCountryID.Items.Insert(0, new ListItem("---- Select Country ----", "-1"));
-            ddlStateID.Items.Insert(0, new ListItem("---- Select State ----", "-1"));
-        }
-        catch (Exception ex)
-        {
-            lblMessage.Text = ex.Message;
-        }
-        finally
-        {
-            if (objCon.State == ConnectionState.Open)
-                objCon.Close();
-        }
+        //    if (objSDR.HasRows == true)
+        //    {
+        //        ddlCountryID.DataSource = objSDR;
+        //        ddlCountryID.DataValueField = "CountryID";
+        //        ddlCountryID.DataTextField = "CountryName";
+        //        ddlCountryID.DataBind();
+        //    }
+        //    objSDR.Close();
+
+        //    #endregion Read the Values and Set the Controls
+
+        //    ddlCountryID.Items.Insert(0, new ListItem("---- Select Country ----", "-1"));
+        //    ddlStateID.Items.Insert(0, new ListItem("---- Select State ----", "-1"));
+        //}
+        //catch (Exception ex)
+        //{
+        //    lblMessage.Text = ex.Message;
+        //}
+        //finally
+        //{
+        //    if (objCon.State == ConnectionState.Open)
+        //        objCon.Close();
+        //}
 
         //SqlConnection objConn = new SqlConnection(ConfigurationManager.ConnectionStrings["AddressBook2ConnectionString"].ConnectionString);
         //try
@@ -236,7 +240,7 @@ public partial class AdminPanel_City_CityAddEdit : System.Web.UI.Page
                 ddlStateID.SelectedIndex = -1;
                 ddlCountryID.SelectedIndex = 0;
                 ddlStateID.Focus();
-                lblMessage.Text = "Data Inserted Successfully";
+                lblMsg.Text = "Data Inserted Successfully";
             }
                 #endregion Insert Record
             objConn.Close();
@@ -302,7 +306,7 @@ public partial class AdminPanel_City_CityAddEdit : System.Web.UI.Page
                     if (!objSDR["CountryID"].Equals(DBNull.Value))
                     {
                         ddlCountryID.SelectedValue = objSDR["CountryID"].ToString().Trim();
-                        FillStateDropDown();
+                        CommonDropDownFillMethods.FillDropDownListStateByCountryID(ddlStateID, ddlCountryID);
 
                     }
                     if (!objSDR["StateID"].Equals(DBNull.Value))
@@ -330,45 +334,48 @@ public partial class AdminPanel_City_CityAddEdit : System.Web.UI.Page
     }
     #endregion Fill Controls
 
-    #region FillDropDownState
-    public void FillStateDropDown()
-    {
-        SqlConnection objCon = new SqlConnection(ConfigurationManager.ConnectionStrings["AddressBook2ConnectionString"].ConnectionString);
+    //#region FillDropDownState
+    //public void FillStateDropDown()
+    //{
 
-        ddlStateID.Items.Clear();
 
-        objCon.Open();
-        SqlString strCountryID = SqlString.Null;
-        if (ddlCountryID.SelectedIndex > 0)
-            strCountryID = ddlCountryID.SelectedValue;
-        SqlCommand objCom = objCon.CreateCommand();
-        objCom.CommandType = CommandType.StoredProcedure;
-        objCom.CommandText = "PR_Contact_StateDDByCountry";
-        if (Session["UserID"] != null)
-        {
-            objCom.Parameters.AddWithValue("@UserID", Session["UserID"].ToString().Trim());
-        }
-        objCom.Parameters.AddWithValue("@CountryID", strCountryID);
-        SqlDataReader objSDR1 = objCom.ExecuteReader();
-        //objSDR1.Read();
-        if (objSDR1.HasRows == true)
-        {
-            ddlStateID.DataSource = objSDR1;
-            ddlStateID.DataValueField = "StateID";
-            ddlStateID.DataTextField = "StateName";
-            ddlStateID.DataBind();
-        }
-        objSDR1.Close();
-        objCon.Close();
-        ddlStateID.Items.Insert(0, new ListItem("---- Select State ----", "-99"));
-    }
 
-    #endregion FillDropDownState
+    //    SqlConnection objCon = new SqlConnection(ConfigurationManager.ConnectionStrings["AddressBook2ConnectionString"].ConnectionString);
+
+    //    ddlStateID.Items.Clear();
+
+    //    objCon.Open();
+    //    SqlString strCountryID = SqlString.Null;
+    //    if (ddlCountryID.SelectedIndex > 0)
+    //        strCountryID = ddlCountryID.SelectedValue;
+    //    SqlCommand objCom = objCon.CreateCommand();
+    //    objCom.CommandType = CommandType.StoredProcedure;
+    //    objCom.CommandText = "PR_Contact_StateDDByCountry";
+    //    if (Session["UserID"] != null)
+    //    {
+    //        objCom.Parameters.AddWithValue("@UserID", Session["UserID"].ToString().Trim());
+    //    }
+    //    objCom.Parameters.AddWithValue("@CountryID", strCountryID);
+    //    SqlDataReader objSDR1 = objCom.ExecuteReader();
+    //    //objSDR1.Read();
+    //    if (objSDR1.HasRows == true)
+    //    {
+    //        ddlStateID.DataSource = objSDR1;
+    //        ddlStateID.DataValueField = "StateID";
+    //        ddlStateID.DataTextField = "StateName";
+    //        ddlStateID.DataBind();
+    //    }
+    //    objSDR1.Close();
+    //    objCon.Close();
+    //    ddlStateID.Items.Insert(0, new ListItem("---- Select State ----", "-99"));
+    //}
+
+    //#endregion FillDropDownState
 
     #region CountrySelectedIndex
     protected void ddlCountryID_SelectedIndexChanged(object sender, EventArgs e)
     {
-        FillStateDropDown();
+        CommonDropDownFillMethods.FillDropDownListStateByCountryID(ddlStateID, ddlCountryID);
     }
     #endregion CountrySelectedIndex
 }

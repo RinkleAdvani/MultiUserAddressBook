@@ -16,11 +16,11 @@ public partial class AdminPanel_ContactCategory_ContactCategoryAddEdit : System.
     {
         if (!Page.IsPostBack)
         {
-            if (Request.QueryString["ContactCategoryId"] != null)
+            if (Page.RouteData.Values["ContactCategoryId"] != null)
             {
                 btnSave.Text = "Update";
                 //lblMessage.Text += "Edit mode | ContactCategoryID = " + Request.QueryString["ContactCategoryId"];
-                FillControls(Convert.ToInt32(Request.QueryString["ContactCategoryId"]));
+                FillControls(Convert.ToInt32(Page.RouteData.Values["ContactCategoryId"]));
             }
         }
 

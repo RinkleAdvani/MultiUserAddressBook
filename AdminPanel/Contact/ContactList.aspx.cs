@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Data.SqlTypes;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -67,6 +68,7 @@ public partial class AdminPanel_Contact_Contact : System.Web.UI.Page
             if (e.CommandArgument.ToString() != "")
             {
                 DeleteRecord(Convert.ToInt32(e.CommandArgument.ToString().Trim()));
+                DeleteContactCategory(Convert.ToInt32(e.CommandArgument.ToString().Trim()));
             }
         }
         #endregion  Delete Record
@@ -90,7 +92,6 @@ public partial class AdminPanel_Contact_Contact : System.Web.UI.Page
 
             objCom.Parameters.AddWithValue("@ContactID", ContactID.ToString().Trim());
             objCom.ExecuteNonQuery();
-
             objCon.Close();
             FillGridView();
         }
@@ -104,5 +105,93 @@ public partial class AdminPanel_Contact_Contact : System.Web.UI.Page
         }
     }
     #endregion Delete Record
+
+    #region Delete ContactCategory
+    private void DeleteContactCategory(SqlInt32 ContactID)
+    {
+        SqlConnection objCon = new SqlConnection(ConfigurationManager.ConnectionStrings["AddressBook2ConnectionString"].ConnectionString.Trim());
+        try
+        {
+            if (objCon.State == ConnectionState.Closed)
+                objCon.Open();
+
+            #region Set Connection And Command Object
+            SqlCommand objCom = objCon.CreateCommand();
+            objCom.CommandType = CommandType.StoredProcedure;
+            objCom.CommandText = "PR_ContactWiseContactCategory_DeleteByContactIDUserID";
+            #endregion Set Connection And Command Object
+
+            objCom.Parameters.AddWithValue("@ContactID", ContactID.ToString().Trim());
+            objCom.ExecuteNonQuery();
+            objCon.Close();
+            FillGridView();
+        }
+        catch (Exception ex)
+        {
+            lblMessage.Text = ex.Message;
+        }
+        finally
+        {
+            objCon.Close();
+        }
+    }
+    #endregion Delete ContactCategory
+
+    //#region Delete File
+    //private void DeleteFile(SqlInt32 ContactID)
+    //{
+    //    String LogicalPath = "";
+    //    SqlConnection objConn = new SqlConnection(ConfigurationManager.ConnectionStrings["AddressBook2ConnectionString"].ConnectionString);
+    //    try
+    //    {
+    //        if (objConn.State != ConnectionState.Open)
+    //            objConn.Open();
+    //        SqlCommand objCmd = objConn.CreateCommand();
+    //        objCmd.CommandType = CommandType.StoredProcedure;
+    //        objCmd.CommandText = "[dbo].[PR_Contact_GetLogicalPathByUserIDContactID]";
+    //        if (Session["UserID"] != null)
+    //            objCmd.Parameters.AddWithValue("@UserID", Session["UserID"]);
+    //        objCmd.Parameters.AddWithValue("@ContactID", ContactID.ToString());
+    //        SqlDataReader objSDR = objCmd.ExecuteReader();
+
+    //        if (objSDR.HasRows)
+    //        {
+    //            while (objSDR.Read())
+    //            {
+    //                LogicalPath = objSDR["ContactPhotoPath"].ToString();
+    //            }
+    //        }
+    //        if (objConn.State == ConnectionState.Open)
+    //            objConn.Close();
+
+    //        String AbsolutePath = Server.MapPath(LogicalPath);
+    //        FileInfo file = new FileInfo(AbsolutePath);
+    //        lblMessage.Text = AbsolutePath + "----" + file.Exists;
+
+    //        if (file.Exists)
+    //        {
+    //            System.GC.Collect();
+    //            System.GC.WaitForPendingFinalizers();
+    //            file.Delete();
+    //            lblMessage.Text = "File is Deleted";
+    //        }
+    //        else
+    //        {
+    //            lblMessage.Text = "File not Found";
+    //        }
+
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        lblMessage.Text = ex.Message;
+    //    }
+    //    finally
+    //    {
+    //        if (objConn.State == ConnectionState.Open)
+    //            objConn.Close();
+    //    }
+
+    //}
+    //#endregion Delete File
 
 }

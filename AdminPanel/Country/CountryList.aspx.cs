@@ -10,6 +10,7 @@ using System.Web.UI.WebControls;
 
 public partial class AdminPanel_Country_CountryList : System.Web.UI.Page
 {
+    #region Load Event
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!Page.IsPostBack)
@@ -17,7 +18,9 @@ public partial class AdminPanel_Country_CountryList : System.Web.UI.Page
             FillGridView();
         }
     }
+    #endregion Load Event
 
+    #region Fill Grid View
     private void FillGridView()
     {
         SqlConnection objcon = new SqlConnection(ConfigurationManager.ConnectionStrings["AddressBook2ConnectionString"].ConnectionString);
@@ -50,7 +53,9 @@ public partial class AdminPanel_Country_CountryList : System.Web.UI.Page
             }
         }
     }
+    #endregion Fill Grid View
 
+    #region Country Row Command
     protected void gvCountry_RowCommand(object sender, GridViewCommandEventArgs e)
     {
         if (e.CommandName == "DeleteRecord")
@@ -61,7 +66,9 @@ public partial class AdminPanel_Country_CountryList : System.Web.UI.Page
             }
         }
     }
+    #endregion Country Row Command
 
+    #region Delete Record
     private void DeleteRecord(int CountryID)
     {
         SqlConnection objCon = new SqlConnection(ConfigurationManager.ConnectionStrings["AddressBook2ConnectionString"].ConnectionString.Trim());
@@ -97,4 +104,5 @@ public partial class AdminPanel_Country_CountryList : System.Web.UI.Page
             }
         }
     }
+    #endregion Delete Record
 }

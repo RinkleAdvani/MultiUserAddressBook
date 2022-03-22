@@ -92,7 +92,7 @@ public partial class AdminPanel_Login : System.Web.UI.Page
                     }
                     break;
                 }
-                Response.Redirect("~/AdminPanel/Default.aspx", true);
+                Response.Redirect("~/AdminPanel/Default", true);
             }
             else
             {
@@ -114,6 +114,6 @@ public partial class AdminPanel_Login : System.Web.UI.Page
     }
     protected void btnSignIn_Click(object sender, EventArgs e)
     {
-            Response.Redirect("~/AdminPanel/SignIn.aspx");
+            Response.Redirect("~/AdminPanel/SignIn");
     }
 }

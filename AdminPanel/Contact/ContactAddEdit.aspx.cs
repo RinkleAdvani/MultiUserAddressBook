@@ -20,11 +20,11 @@ public partial class AdminPanel_Contact_ContactAddEdit : System.Web.UI.Page
             FillDropDown();
             FillCBLContactCategory();
 
-            if (Request.QueryString["ContactId"] != null)
+            if (Page.RouteData.Values["ContactId"] != null)
             {
                 btnSave.Text = "Update";
                 //lblMessage.Text += "Edit mode | ContactID = " + Request.QueryString["ContactId"];
-                FillControls(Convert.ToInt32(Request.QueryString["ContactId"]));
+                FillControls(Convert.ToInt32(Page.RouteData.Values["ContactId"]));
             }
             //else
             //{
@@ -35,168 +35,174 @@ public partial class AdminPanel_Contact_ContactAddEdit : System.Web.UI.Page
     #endregion Load Event
 
     #region Fill DropDown
-    private void FillDropDown()
-    {
-        SqlConnection objCon = new SqlConnection(ConfigurationManager.ConnectionStrings["AddressBook2ConnectionString"].ConnectionString);
-        try
-        {
-            if (objCon.State == ConnectionState.Closed)
-                objCon.Open();
+    private void FillDropDown(){
 
-            #region Set Connection and Command Objects
+        CommonDropDownFillMethods.FillDropDownListCountry(ddlCountry);
+        CommonDropDownFillMethods.FillDropDownListStateByCountryID(ddlState, ddlCountry);
+        CommonDropDownFillMethods.FillDropDownListCityByStateID(ddlCity, ddlState);
 
-            SqlCommand objCom = objCon.CreateCommand();
-            objCom.CommandType = CommandType.StoredProcedure;
-            objCom.CommandText = "[dbo].[PR_Country_SelectForDropDownList]";
+        //SqlConnection objCon = new SqlConnection(ConfigurationManager.ConnectionStrings["AddressBook2ConnectionString"].ConnectionString);
+        //try
+        //{
+        //    if (objCon.State == ConnectionState.Closed)
+        //        objCon.Open();
 
-            #endregion Set Connection and Command Objects
-            SqlDataReader objSDR = objCom.ExecuteReader();
+        //    #region Set Connection and Command Objects
 
-            //objSDR.Read();
+        //    SqlCommand objCom = objCon.CreateCommand();
+        //    objCom.CommandType = CommandType.StoredProcedure;
+        //    objCom.CommandText = "[dbo].[PR_Country_SelectForDropDownList]";
 
-            #region Read the Values and Set the Controls
+        //    #endregion Set Connection and Command Objects
+        //    SqlDataReader objSDR = objCom.ExecuteReader();
 
-            if (objSDR.HasRows == true)
-            {
-                ddlCountry.DataSource = objSDR;
-                ddlCountry.DataValueField = "CountryID";
-                ddlCountry.DataTextField = "CountryName";
-                ddlCountry.DataBind();
-            }
-            objSDR.Close();
+        //    //objSDR.Read();
 
-            //objCom.CommandText = "PR_State_SelectForDropDownList";
-            //SqlDataReader objSDR1 = objCom.ExecuteReader();
-            //objSDR1.Read();
-            //if (objSDR1.HasRows == true)
-            //{
-            //    ddlState.DataSource = objSDR1;
-            //    ddlState.DataValueField = "StateID";
-            //    ddlState.DataTextField = "StateName";
-            //    ddlState.DataBind();
-            //}
-            //objSDR1.Close();
+        //    #region Read the Values and Set the Controls
+
+        //    if (objSDR.HasRows == true)
+        //    {
+        //        ddlCountry.DataSource = objSDR;
+        //        ddlCountry.DataValueField = "CountryID";
+        //        ddlCountry.DataTextField = "CountryName";
+        //        ddlCountry.DataBind();
+        //    }
+        //    objSDR.Close();
+
+        //    //objCom.CommandText = "PR_State_SelectForDropDownList";
+        //    //SqlDataReader objSDR1 = objCom.ExecuteReader();
+        //    //objSDR1.Read();
+        //    //if (objSDR1.HasRows == true)
+        //    //{
+        //    //    ddlState.DataSource = objSDR1;
+        //    //    ddlState.DataValueField = "StateID";
+        //    //    ddlState.DataTextField = "StateName";
+        //    //    ddlState.DataBind();
+        //    //}
+        //    //objSDR1.Close();
 
 
-            //objCom.CommandText = "PR_City_SelectForDropDownList";
-            //SqlDataReader objSDR2 = objCom.ExecuteReader();
-            //objSDR2.Read();
-            //if (objSDR2.HasRows == true)
-            //{
-            //    ddlCity.DataSource = objSDR2;
-            //    ddlCity.DataValueField = "CityID";
-            //    ddlCity.DataTextField = "CityName";
-            //    ddlCity.DataBind();
-            //}
-            //objSDR2.Close();
+        //    //objCom.CommandText = "PR_City_SelectForDropDownList";
+        //    //SqlDataReader objSDR2 = objCom.ExecuteReader();
+        //    //objSDR2.Read();
+        //    //if (objSDR2.HasRows == true)
+        //    //{
+        //    //    ddlCity.DataSource = objSDR2;
+        //    //    ddlCity.DataValueField = "CityID";
+        //    //    ddlCity.DataTextField = "CityName";
+        //    //    ddlCity.DataBind();
+        //    //}
+        //    //objSDR2.Close();
 
-            //objCom.CommandText = "PR_ContactCategory_SelectByDropDownList";
+        //    //objCom.CommandText = "PR_ContactCategory_SelectByDropDownList";
 
-            //SqlDataReader objSDR3 = objCom.ExecuteReader();
-            ////objSDR3.Read();
-            //if (objSDR3.HasRows == true)
-            //{
-            //    ddlContactCategory.DataSource = objSDR3;
-            //    ddlContactCategory.DataValueField = "ContactCategoryID";
-            //    ddlContactCategory.DataTextField = "ContactCategoryName";
-            //    ddlContactCategory.DataBind();
-            //}
-            //objSDR3.Close();
-            #endregion Read the Values and Set the Controls
+        //    //SqlDataReader objSDR3 = objCom.ExecuteReader();
+        //    ////objSDR3.Read();
+        //    //if (objSDR3.HasRows == true)
+        //    //{
+        //    //    ddlContactCategory.DataSource = objSDR3;
+        //    //    ddlContactCategory.DataValueField = "ContactCategoryID";
+        //    //    ddlContactCategory.DataTextField = "ContactCategoryName";
+        //    //    ddlContactCategory.DataBind();
+        //    //}
+        //    //objSDR3.Close();
+        //    #endregion Read the Values and Set the Controls
 
-            objCon.Close();
+        //    objCon.Close();
 
-            ddlCountry.Items.Insert(0, new ListItem("---- Select Country ----", "-1"));
-            //ddlContactCategory.Items.Insert(0, new ListItem("---- Select Country ----", "-1"));
-            ddlState.Items.Insert(0, new ListItem("---- Select State ----", "-1"));
-            ddlCity.Items.Insert(0, new ListItem("---- Select City ----", "-1"));
+        //    ddlCountry.Items.Insert(0, new ListItem("---- Select Country ----", "-1"));
+        //    //ddlContactCategory.Items.Insert(0, new ListItem("---- Select Contact Category ----", "-1"));
+        //    ddlState.Items.Insert(0, new ListItem("---- Select State ----", "-1"));
+        //    ddlCity.Items.Insert(0, new ListItem("---- Select City ----", "-1"));
 
-        }
-        catch (Exception ex)
-        {
-            lblMessage.Text = ex.Message;
-        }
-        finally
-        {
-            objCon.Close();
-        }
+        //}
+        //catch (Exception ex)
+        //{
+        //    lblMessage.Text = ex.Message;
+        //}
+        //finally
+        //{
+        //    objCon.Close();
+        //}
 
 
     }
     #endregion Fill DropDown
 
-    #region Fill State DropDown
-    public void FillStateDropDown()
-    {
-        SqlConnection objCon = new SqlConnection(ConfigurationManager.ConnectionStrings["AddressBook2ConnectionString"].ConnectionString);
+    //#region Fill State DropDown
+    //public void FillStateDropDown()
+    //{
+    //    SqlConnection objCon = new SqlConnection(ConfigurationManager.ConnectionStrings["AddressBook2ConnectionString"].ConnectionString);
 
-        ddlState.Items.Clear();
+    //    ddlState.Items.Clear();
 
-        objCon.Open();
-        SqlString strCountryID = SqlString.Null;
-        if (ddlCountry.SelectedIndex > 0)
-            strCountryID = ddlCountry.SelectedValue;
-        SqlCommand objCom = objCon.CreateCommand();
-        objCom.CommandType = CommandType.StoredProcedure;
-        objCom.CommandText = "PR_Contact_StateDDByCountry";
-        if (Session["UserID"] != null)
-        {
-            objCom.Parameters.AddWithValue("@UserID", Session["UserID"].ToString().Trim());
-        }
-        objCom.Parameters.AddWithValue("@CountryID", strCountryID);
-        SqlDataReader objSDR1 = objCom.ExecuteReader();
-        //objSDR1.Read();
-        if (objSDR1.HasRows == true)
-        {
-            ddlState.DataSource = objSDR1;
-            ddlState.DataValueField = "StateID"; 
-            ddlState.DataTextField = "StateName";
-            ddlState.DataBind();
-        }
-        objSDR1.Close();
-        objCon.Close();
-        ddlState.Items.Insert(0, new ListItem("---- Select State ----", "-1"));
-    }
-    #endregion Fill State DropDown
+    //    objCon.Open();
+    //    SqlString strCountryID = SqlString.Null;
+    //    if (ddlCountry.SelectedIndex > 0)
+    //        strCountryID = ddlCountry.SelectedValue;
+    //    SqlCommand objCom = objCon.CreateCommand();
+    //    objCom.CommandType = CommandType.StoredProcedure;
+    //    objCom.CommandText = "PR_Contact_StateDDByCountry";
+    //    if (Session["UserID"] != null)
+    //    {
+    //        objCom.Parameters.AddWithValue("@UserID", Session["UserID"].ToString().Trim());
+    //    }
+    //    objCom.Parameters.AddWithValue("@CountryID", strCountryID);
+    //    SqlDataReader objSDR1 = objCom.ExecuteReader();
+    //    //objSDR1.Read();
+    //    if (objSDR1.HasRows == true)
+    //    {
+    //        ddlState.DataSource = objSDR1;
+    //        ddlState.DataValueField = "StateID";
+    //        ddlState.DataTextField = "StateName";
+    //        ddlState.DataBind();
+    //    }
+    //    objSDR1.Close();
+    //    objCon.Close();
+    //    ddlState.Items.Insert(0, new ListItem("---- Select State ----", "-1"));
+    //}
+    //#endregion Fill State DropDown
 
-    #region Fill City DropDown
-    public void FillCityDropDown()
-    {
-        SqlConnection objCon = new SqlConnection(ConfigurationManager.ConnectionStrings["AddressBook2ConnectionString"].ConnectionString);
+    //#region Fill City DropDown
+    //public void FillCityDropDown()
+    //{
+    //    SqlConnection objCon = new SqlConnection(ConfigurationManager.ConnectionStrings["AddressBook2ConnectionString"].ConnectionString);
 
-        ddlCity.Items.Clear();
-        objCon.Open();
+    //    ddlCity.Items.Clear();
+    //    objCon.Open();
 
-        SqlString strStateID = SqlString.Null;
-        if (ddlState.SelectedIndex > 0)
-            strStateID = ddlState.SelectedValue;
-        SqlCommand objCom = objCon.CreateCommand();
-        objCom.CommandType = CommandType.StoredProcedure;
-        objCom.CommandText = "PR_Contact_CityDDByState";
-        if (Session["UserID"] != null)
-        {
-            objCom.Parameters.AddWithValue("@UserID", Session["UserID"].ToString().Trim());
-        }
-        objCom.Parameters.AddWithValue("@StateID", ddlState.SelectedValue);
-        SqlDataReader objSDR2 = objCom.ExecuteReader();
-        //objSDR2.Read();
-        if (objSDR2.HasRows == true)
-        {
-            ddlCity.DataSource = objSDR2;
-            ddlCity.DataValueField = "CityID";
-            ddlCity.DataTextField = "CityName";
-            ddlCity.DataBind();
-        }
-        objSDR2.Close();
-        objCon.Close();
-        ddlCity.Items.Insert(0, new ListItem("---- Select City ----", "-1"));
-    }
-    #endregion Fill City DropDown
-
+    //    SqlString strStateID = SqlString.Null;
+    //    if (ddlState.SelectedIndex > 0)
+    //        strStateID = ddlState.SelectedValue;
+    //    SqlCommand objCom = objCon.CreateCommand();
+    //    objCom.CommandType = CommandType.StoredProcedure;
+    //    objCom.CommandText = "PR_Contact_CityDDByState";
+    //    if (Session["UserID"] != null)
+    //    {
+    //        objCom.Parameters.AddWithValue("@UserID", Session["UserID"].ToString().Trim());
+    //    }
+    //    objCom.Parameters.AddWithValue("@StateID", ddlState.SelectedValue);
+    //    SqlDataReader objSDR2 = objCom.ExecuteReader();
+    //    //objSDR2.Read();
+    //    if (objSDR2.HasRows == true)
+    //    {
+    //        ddlCity.DataSource = objSDR2;
+    //        ddlCity.DataValueField = "CityID";
+    //        ddlCity.DataTextField = "CityName";
+    //        ddlCity.DataBind();
+    //    }
+    //    objSDR2.Close();
+    //    objCon.Close();
+    //    ddlCity.Items.Insert(0, new ListItem("---- Select City ----", "-1"));
+    //}
+    //#endregion Fill City DropDown
+     
     #region Fill Controls
     protected void FillControls(SqlInt32 ContactID)
     {
         SqlConnection objConn = new SqlConnection(ConfigurationManager.ConnectionStrings["AddressBook2ConnectionString"].ConnectionString);
+
+        SqlString strUserID = SqlString.Null;
         try
         {
             if (objConn.State != ConnectionState.Open)
@@ -222,12 +228,13 @@ public partial class AdminPanel_Contact_ContactAddEdit : System.Web.UI.Page
                     if (!objSDR["CountryID"].Equals(DBNull.Value))
                     {
                         ddlCountry.SelectedValue = objSDR["CountryID"].ToString().Trim();
-                        FillStateDropDown();
+                        CommonDropDownFillMethods.FillDropDownListStateByCountryID(ddlState, ddlCountry);
                     }
                     if (!objSDR["StateID"].Equals(DBNull.Value))
                     {
                         ddlState.SelectedValue = objSDR["StateID"].ToString().Trim();
-                        FillCityDropDown();
+
+                        CommonDropDownFillMethods.FillDropDownListCityByStateID(ddlCity, ddlState);
                     }
                     if (!objSDR["CityID"].Equals(DBNull.Value))
                     {
@@ -277,18 +284,14 @@ public partial class AdminPanel_Contact_ContactAddEdit : System.Web.UI.Page
                     {
                         txtLinkedIn.Text = objSDR["LinkedINID"].ToString().Trim();
                     }
-                    //if (!objSDR["ContactPhotoPath"].Equals(DBNull.Value))
-                    //{
-                    //    fuContactPhotoPath.
-                    //}
-                    break;
                 }
             }
-            else
-                lblMessage.Text = "No data available";
-            #endregion Read the Values and Set Controls
-            if (objConn.State == ConnectionState.Open)
+            objSDR.Close();
+
+            FillCheckedCBLContactCategoryID(Convert.ToInt32(Page.RouteData.Values["ContactId"]));
+            if (objConn.State != ConnectionState.Closed)
                 objConn.Close();
+            #endregion Read the Values and Set Controls
         }
         catch (Exception ex)
         {
@@ -305,14 +308,14 @@ public partial class AdminPanel_Contact_ContactAddEdit : System.Web.UI.Page
     #region CountrySelectedIndex
     protected void ddlCountry_SelectedIndexChanged(object sender, EventArgs e)
     {
-        FillStateDropDown();
+        CommonDropDownFillMethods.FillDropDownListStateByCountryID(ddlState, ddlCountry);
     }
     #endregion CountrySelectedIndex
 
     #region StateSelectedIndex
     protected void ddlState_SelectedIndexChanged(object sender, EventArgs e)
     {
-        FillCityDropDown();
+        CommonDropDownFillMethods.FillDropDownListCityByStateID(ddlCity, ddlState);
     }
     #endregion StateSelectedIndex
 
@@ -403,6 +406,8 @@ public partial class AdminPanel_Contact_ContactAddEdit : System.Web.UI.Page
             //{
             //    strContactCategory = Convert.ToInt32(ddlContactCategory.SelectedValue);
             //}
+
+         
             if (txtContactName.Text.Trim() != "")
             {
                 strContactName = txtContactName.Text.Trim();
@@ -473,7 +478,11 @@ public partial class AdminPanel_Contact_ContactAddEdit : System.Web.UI.Page
             objCmd.Parameters.AddWithValue("@BloodGroup", strBloodGroup);                                                
             objCmd.Parameters.AddWithValue("@FacebookID", strFacebookID);
             objCmd.Parameters.AddWithValue("@LinkedINID", strLinkedInID);
-            objCmd.Parameters.AddWithValue("@ContactPhotoPath", strImage);            
+            if (fuContactPhotoPath.HasFile)
+            {
+                objCmd.Parameters.AddWithValue("@ContactPhotoPath", strImage);
+            }
+                    
             
            
             #endregion Add Parameters                                                                                    	
@@ -512,10 +521,10 @@ public partial class AdminPanel_Contact_ContactAddEdit : System.Web.UI.Page
                         objCmdContactcategory.CommandText = "[dbo].[ContactWiseContactCategory_Insert]";
                         if (Session["UserID"] != null)
                         {
-                            objCmd.Parameters.AddWithValue("@UserID", Session["UserID"]);
+                            objCmdContactcategory.Parameters.AddWithValue("@UserID", Session["UserID"]);
                         }
-                        objCmd.Parameters.AddWithValue("@ContactID", ContactID.ToString());
-                        objCmd.Parameters.AddWithValue("ContactCategoryID", liContactCategoryID.Value.ToString());
+                        objCmdContactcategory.Parameters.AddWithValue("@ContactID", ContactID.ToString());
+                        objCmdContactcategory.Parameters.AddWithValue("@ContactCategoryID", liContactCategoryID.Value.ToString());
                         objCmdContactcategory.ExecuteNonQuery();
                     }
                 }
@@ -592,4 +601,65 @@ public partial class AdminPanel_Contact_ContactAddEdit : System.Web.UI.Page
         }
     }
     #endregion Fill CheckBoxList ContactCategory
+
+    #region Fill CheckBoxList Checked Items
+    private void FillCheckedCBLContactCategoryID(SqlInt32 ContacttID)
+    {
+        SqlConnection objConn = new SqlConnection(ConfigurationManager.ConnectionStrings["AddressBook2ConnectionString"].ConnectionString);
+        try
+        {
+            #region Set Connection & Command Object
+            if (objConn.State != ConnectionState.Open)
+                objConn.Open();
+
+            SqlCommand objCmd = new SqlCommand();
+            objCmd.Connection = objConn;
+            objCmd.CommandType = CommandType.StoredProcedure;
+            objCmd.CommandText = "PR_ContactWiseContactCategory_SelectByPKUserID";
+            if (Session["UserID"] != null)
+                objCmd.Parameters.AddWithValue("@UserID", Session["UserID"].ToString());
+            objCmd.Parameters.AddWithValue("@ContactID", ContacttID);
+            SqlDataReader objSDR = objCmd.ExecuteReader();
+
+            if (objSDR.HasRows)
+            {
+                while (objSDR.Read())
+                {
+                    foreach (ListItem li in cblContactCategory.Items)
+                    {
+                        if (objSDR["ContactCategoryID"].ToString() == li.Value)
+                        {
+                            li.Selected = true;
+                        }
+                    }
+                }
+                //return;
+            }
+            else
+            {
+                lblMessage.Text = "Nothing available";
+            }
+            #endregion Set Connection & Command Object
+
+            #region Close Connection
+            if (objConn.State == ConnectionState.Open)
+                objConn.Close();
+            #endregion Close Connection
+
+        }
+        catch (Exception ex)
+        {
+            #region Display Appropriate Message
+            lblMessage.Text = ex.Message;
+            #endregion Display Appropriate Message
+        }
+        finally
+        {
+            #region Close Connection
+            if (objConn.State == ConnectionState.Open)
+                objConn.Close();
+            #endregion Close Connection
+        }
+    }
+    #endregion Fill CheckBoxList Checked Items
 }

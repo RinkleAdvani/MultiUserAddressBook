@@ -17,11 +17,13 @@ public partial class AdminPanel_State_StateAddEdit : System.Web.UI.Page
         if (!Page.IsPostBack)
         {
             FillDropDownList();
-            if (Request.QueryString["StateId"] != null)
+            //if (Request.QueryString["StateId"] != null)
+            if (Page.RouteData.Values["StateId"] != null)
             {
                 btnSave.Text = "Update";
                 //lblMessage.Text += "Edit mode | StateID = " + Request.QueryString["StateId"];
-                FillControls(Convert.ToInt32(Request.QueryString["StateId"]));
+                FillControls(Convert.ToInt32(Page.RouteData.Values["StateId"]));
+                //FillControls(Convert.ToInt32(Request.QueryString["StateId"]));
             }
         }
     }
@@ -151,39 +153,42 @@ public partial class AdminPanel_State_StateAddEdit : System.Web.UI.Page
     #region Fill DropDownList
     private void FillDropDownList()
     {
-        SqlConnection objConn = new SqlConnection(ConfigurationManager.ConnectionStrings["AddressBook2ConnectionString"].ConnectionString);
-        try
-        {
-            #region Connection and Command Object
-            if (objConn.State != ConnectionState.Open)
-            {
-                objConn.Open();
-            }
-            SqlCommand objComm = objConn.CreateCommand();
-            objComm.CommandType = CommandType.StoredProcedure;
-            objComm.CommandText = "PR_Country_SelectForDropDownList";
-            SqlDataReader objSDR = objComm.ExecuteReader();
-            #endregion Connection and Command Object
 
-            if (objSDR.HasRows == true)
-            {
-                ddlCountryID.DataSource = objSDR;
-                ddlCountryID.DataValueField = "CountryID";
-                ddlCountryID.DataTextField = "CountryName";
-                ddlCountryID.DataBind();
-            }
+        CommonDropDownFillMethods.FillDropDownListCountry(ddlCountryID);
 
-            ddlCountryID.Items.Insert(0, new ListItem("Select Country", "-1"));
-            objConn.Close();
-        }
-        catch (Exception ex)
-        {
-            lblMessage.Text += ex.Message;
-        }
-        finally
-        {
-            objConn.Close();
-        }
+        //SqlConnection objConn = new SqlConnection(ConfigurationManager.ConnectionStrings["AddressBook2ConnectionString"].ConnectionString);
+        //try
+        //{
+        //    #region Connection and Command Object
+        //    if (objConn.State != ConnectionState.Open)
+        //    {
+        //        objConn.Open();
+        //    }
+        //    SqlCommand objComm = objConn.CreateCommand();
+        //    objComm.CommandType = CommandType.StoredProcedure;
+        //    objComm.CommandText = "PR_Country_SelectForDropDownList";
+        //    SqlDataReader objSDR = objComm.ExecuteReader();
+        //    #endregion Connection and Command Object
+
+        //    if (objSDR.HasRows == true)
+        //    {
+        //        ddlCountryID.DataSource = objSDR;
+        //        ddlCountryID.DataValueField = "CountryID";
+        //        ddlCountryID.DataTextField = "CountryName";
+        //        ddlCountryID.DataBind();
+        //    }
+
+        //    ddlCountryID.Items.Insert(0, new ListItem("Select Country", "-1"));
+        //    objConn.Close();
+        //}
+        //catch (Exception ex)
+        //{
+        //    lblMessage.Text += ex.Message;
+        //}
+        //finally
+        //{
+        //    objConn.Close();
+        //}
     }
     #endregion Fill DropDownList
 

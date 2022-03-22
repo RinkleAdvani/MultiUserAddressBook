@@ -15,10 +15,12 @@ public partial class AdminPanel_Country_CountryAddEdit : System.Web.UI.Page
     {
         if (!Page.IsPostBack)
         {
-            if (Request.QueryString["CountryID"] != null)
+            //if (Request.QueryString["CountryID"] != null)
+            if (Page.RouteData.Values["CountryID"] != null)
             {
                 btnSave.Text = "Update";
-                FillControls(Convert.ToInt32(Request.QueryString["CountryID"]));
+                //FillControls(Convert.ToInt32(Request.QueryString["CountryID"]));
+                FillControls(Convert.ToInt32(Page.RouteData.Values["CountryID"]));
             }
         }
     }

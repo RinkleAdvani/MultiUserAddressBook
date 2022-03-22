@@ -161,7 +161,7 @@
                 Upload Photo :
             </div>
             <div class="col-md-6">
-                <asp:FileUpload ID="fuContactPhotoPath" runat="server" />
+                <asp:FileUpload ID="fuContactPhotoPath" runat="server" CssClass="form-control"/>
             </div>
         </div>
 
