@@ -25,6 +25,7 @@ public partial class AdminPanel_Contact_ContactAddEdit : System.Web.UI.Page
                 btnSave.Text = "Update";
                 //lblMessage.Text += "Edit mode | ContactID = " + Request.QueryString["ContactId"];
                 FillControls(Convert.ToInt32(Page.RouteData.Values["ContactId"]));
+                FillCheckedCBLContactCategoryID(Convert.ToInt32(Page.RouteData.Values["ContactId"]));
             }
             //else
             //{
@@ -284,11 +285,21 @@ public partial class AdminPanel_Contact_ContactAddEdit : System.Web.UI.Page
                     {
                         txtLinkedIn.Text = objSDR["LinkedINID"].ToString().Trim();
                     }
+
+                    if (!objSDR["ContactPhotoPath"].Equals(DBNull.Value))
+                    {
+                        fuContactPhotoPath.SaveAs(Server.MapPath(objSDR["ContactPhotoPath"].ToString().Trim()));
+                    }
+
+                    hfImg.Value = objSDR["ContactPhotoPath"].ToString().Trim();
+                    imgContactPhotoPath.EnableViewState = true;
+                    imgContactPhotoPath.ImageUrl = objSDR["ContactPhotoPath"].ToString().Trim();
+                    break;
                 }
             }
             objSDR.Close();
 
-            FillCheckedCBLContactCategoryID(Convert.ToInt32(Page.RouteData.Values["ContactId"]));
+           
             if (objConn.State != ConnectionState.Closed)
                 objConn.Close();
             #endregion Read the Values and Set Controls
@@ -450,9 +461,22 @@ public partial class AdminPanel_Contact_ContactAddEdit : System.Web.UI.Page
             }
             if (fuContactPhotoPath.HasFile)
             {
-                strImage = "~/User_Content/" + fuContactPhotoPath.FileName;
-                //ContactPhotoPath = "~/User_Content/" + fuContactPhotoPath.FileName.ToString().Trim();
-                fuContactPhotoPath.SaveAs(Server.MapPath(strImage.ToString()));
+                #region Create FolderPath, AbsolutePath & ContactPhotoPath
+                String FolderPath = "~/User_Content/";
+                String AbsolutePath = Server.MapPath(FolderPath);
+                strImage = FolderPath + fuContactPhotoPath.FileName.ToString().Trim();
+                #endregion Create FolderPath, AbsolutePath & ContactPhotoPath
+
+                #region Create Directory If Doesn't Exists
+                if (!Directory.Exists(AbsolutePath))
+                {
+                    Directory.CreateDirectory(AbsolutePath);
+                }
+                #endregion Create Directory If Doesn't Exists
+
+                #region Save File
+                fuContactPhotoPath.SaveAs(AbsolutePath + fuContactPhotoPath.FileName.ToString().Trim());
+                #endregion Save File
             }
             #endregion Gather Information
 
@@ -487,9 +511,9 @@ public partial class AdminPanel_Contact_ContactAddEdit : System.Web.UI.Page
            
             #endregion Add Parameters                                                                                    	
 
-            if (Request.QueryString["ContactID"] != null)
+            if (Page.RouteData.Values["ContactID"] != null)
             {
-                objCmd.Parameters.AddWithValue("@ContactID", Request.QueryString["ContactID"]);
+                objCmd.Parameters.AddWithValue("@ContactID", Page.RouteData.Values["ContactID"]);
                 objCmd.CommandText = "[dbo].[PR_Contact_UpdateByPK]";
                 objCmd.ExecuteNonQuery();
                 Response.Redirect("~/AdminPanel/Contact/ContactList.aspx");
@@ -619,6 +643,7 @@ public partial class AdminPanel_Contact_ContactAddEdit : System.Web.UI.Page
             if (Session["UserID"] != null)
                 objCmd.Parameters.AddWithValue("@UserID", Session["UserID"].ToString());
             objCmd.Parameters.AddWithValue("@ContactID", ContacttID);
+            
             SqlDataReader objSDR = objCmd.ExecuteReader();
 
             if (objSDR.HasRows)

@@ -84,6 +84,44 @@ public partial class AdminPanel_Contact_Contact : System.Web.UI.Page
             if (objCon.State == ConnectionState.Closed)
                 objCon.Open();
 
+            #region Delete Photo from floder
+
+            #region Set Connection and Command Objects
+            SqlCommand objcmdPhoto = objCon.CreateCommand();
+            objcmdPhoto.CommandType = CommandType.StoredProcedure;
+            objcmdPhoto.CommandText = "PR_Contact_SelectByPK";
+            #endregion Set Connection and Command Objects
+
+            objcmdPhoto.Parameters.AddWithValue("@ContactID", ContactID.ToString().Trim());
+
+            SqlDataReader objSDR = objcmdPhoto.ExecuteReader();
+
+            #region Read the Values and Set Controls
+            if (objSDR.HasRows)
+            {
+                while (objSDR.Read())
+                {
+                    if (!objSDR["ContactPhotoPath"].Equals(DBNull.Value))
+                    {
+                        String ContactPhotoPath = objSDR["ContactPhotoPath"].ToString().Trim();
+
+                        FileInfo file = new FileInfo(Server.MapPath(ContactPhotoPath));
+
+                        if (file.Exists)
+                        {
+
+                            file.Delete();  
+                        }
+                    }
+                    break;
+                }
+            }
+            objSDR.Close();
+            #endregion Read the Values and Set Controls
+
+
+            #endregion Delete Photo from floder
+
             #region Set Connection And Command Object
             SqlCommand objCom = objCon.CreateCommand();
             objCom.CommandType = CommandType.StoredProcedure;
@@ -93,7 +131,10 @@ public partial class AdminPanel_Contact_Contact : System.Web.UI.Page
             objCom.Parameters.AddWithValue("@ContactID", ContactID.ToString().Trim());
             objCom.ExecuteNonQuery();
             objCon.Close();
+
+
             FillGridView();
+            DeleteContactCategory(Convert.ToInt32(Page.RouteData.Values["ContactId"]));
         }
         catch (Exception ex)
         {

@@ -95,7 +95,7 @@ public partial class AdminPanel_ContactCategory_ContactCategoryAddEdit : System.
                     objCom.Parameters.AddWithValue("@UserID", Session["UserID"]);
                 }
                 objCom.ExecuteNonQuery();
-                lblMessage.Text = "Data Inserted Successfully";
+                lblMsg.Text = "Data Inserted Successfully";
                 txtContactCatName.Text = "";
                 txtContactCatName.Focus();
                 #endregion Insert Record

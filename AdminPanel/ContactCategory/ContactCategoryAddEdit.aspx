@@ -15,6 +15,13 @@
                 <asp:Label ID="lblMessage" runat="server" Text="" EnableViewState="false" ForeColor="#FF3333"></asp:Label>
             </div>
         </div>
+
+        <div class="row list">
+            <div class="col-md-8 col-lg-push-2">
+                <asp:Label ID="lblMsg" runat="server" Text="" EnableViewState="false" ForeColor="green"></asp:Label>
+            </div>
+        </div>
+
         <div class="row country">
             <div class="col-md-2 col-lg-push-2">
                 <strong style="color:red;">*</strong>Contact Category Name : 

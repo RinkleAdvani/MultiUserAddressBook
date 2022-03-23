@@ -16,6 +16,14 @@
             </div>
         </div>
 
+        <div class="row list">
+            <div>
+                <asp:Image ID="imgContactPhotoPath" EnableViewState="false" runat="server" Height="170px" ImageAlign="Middle"  />
+                <asp:HiddenField runat="server" ID="hfImg" />
+
+            </div>
+        </div>
+        <br />
         <div class="row country">
             <div class="col-md-4 col-sm-push-2">
                 <strong style="color: red;">*</strong>Country :
@@ -158,10 +166,10 @@
         </div>
         <div class="row country">
             <div class="col-md-4 col-sm-push-2">
-                Upload Photo :
+                <strong style="color: red;">*</strong>Upload Photo :
             </div>
             <div class="col-md-6">
-                <asp:FileUpload ID="fuContactPhotoPath" runat="server" CssClass="form-control"/>
+                <asp:FileUpload ID="fuContactPhotoPath" runat="server" CssClass="form-control" />
             </div>
         </div>
 

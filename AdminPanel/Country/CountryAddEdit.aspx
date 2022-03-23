@@ -14,6 +14,13 @@
                 <asp:Label ID="lblMessage" runat="server" EnableViewState="False" ForeColor="#FF3333"></asp:Label>
             </div>
         </div>
+
+        <div class="row list" >
+            <div class="col-md-12 col-lg-push-2">
+                <asp:Label ID="lblMsg" runat="server" EnableViewState="False" ForeColor="green"></asp:Label>
+            </div>
+        </div>
+
         <div class="row country">
             <div class="col-md-2 col-sm-push-2">
                 <strong style="color:red;">*</strong>Country Name : 

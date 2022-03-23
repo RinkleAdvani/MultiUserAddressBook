@@ -87,7 +87,7 @@ public partial class AdminPanel_Country_CountryAddEdit : System.Web.UI.Page
                 objCom.CommandText = "PR_Country_Insert";
 
                 objCom.ExecuteNonQuery();
-                lblMessage.Text = "Data Inserted Successfully";
+                lblMsg.Text = "Data Inserted Successfully";
                 txtCountryName.Text = "";
                 txtCountryCode.Text = "";
                 txtCountryCode.Focus();

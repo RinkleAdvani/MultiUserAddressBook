@@ -125,7 +125,7 @@ public partial class AdminPanel_State_StateAddEdit : System.Web.UI.Page
                 txtStateCode.Text = "";
                 ddlCountryID.SelectedIndex = 0;
                 ddlCountryID.Focus();
-                lblMessage.Text = "Data Inserted Successfully";
+                lblMsg.Text = "Data Inserted Successfully";
                 #endregion Insert Record
             }
             objConn.Close();
