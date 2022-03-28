@@ -55,7 +55,7 @@
                     <asp:TemplateField HeaderText="Action">
                         <ItemTemplate>
                             <div style="width: 150px;">
-                                <asp:HyperLink ID="HyperLink1" runat="server" CssClass="btn btn-primary btn-sm" NavigateUrl='<%# "~/AdminPanel/Contact/Edit/" + Eval("ContactID").ToString() %>'>Edit</asp:HyperLink>
+                                <asp:HyperLink ID="HyperLink1" runat="server" CssClass="btn btn-primary btn-sm" NavigateUrl='<%# "~/AdminPanel/Contact/Edit/" + EncodeDecode.Base64Encode(Eval("ContactID").ToString()) %>'>Edit</asp:HyperLink>
                                 &nbsp;&nbsp;&nbsp;&nbsp;
                                 <asp:Button runat="server" ID="btnDelete" Text="Delete" CommandName="DeleteRecord" CssClass="btn btn-danger btn-sm" CommandArgument='<%# Eval("ContactID").ToString() %>' />
                             </div>

@@ -18,7 +18,7 @@
 
         <div class="row list">
             <div>
-                <asp:Image ID="imgContactPhotoPath" EnableViewState="false" runat="server" Height="170px" ImageAlign="Middle"  />
+                <asp:Image ID="imgContactPhotoPath" Visible="false" EnableViewState="false" runat="server" Height="170px" ImageAlign="Middle"  />
                 <asp:HiddenField runat="server" ID="hfImg" />
 
             </div>

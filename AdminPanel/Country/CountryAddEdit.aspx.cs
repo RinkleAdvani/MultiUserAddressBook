@@ -20,7 +20,7 @@ public partial class AdminPanel_Country_CountryAddEdit : System.Web.UI.Page
             {
                 btnSave.Text = "Update";
                 //FillControls(Convert.ToInt32(Request.QueryString["CountryID"]));
-                FillControls(Convert.ToInt32(Page.RouteData.Values["CountryID"]));
+                FillControls(EncodeDecode.Base64Decode(Page.RouteData.Values["CountryID"].ToString().Trim()));
             }
         }
     }
@@ -74,9 +74,9 @@ public partial class AdminPanel_Country_CountryAddEdit : System.Web.UI.Page
             objCom.Parameters.AddWithValue("@CountryCode", strCountryCode);
             objCom.Parameters.AddWithValue("@CountryName", strCountryName);
 
-            if (Request.QueryString["CountryID"] != null)
+            if (Page.RouteData.Values["CountryID"] != null)
             {
-                objCom.Parameters.AddWithValue("@CountryID", Request.QueryString["CountryID"].ToString().Trim());
+                objCom.Parameters.AddWithValue("@CountryID", EncodeDecode.Base64Decode(Page.RouteData.Values["CountryID"].ToString().Trim()));
 
                 objCom.CommandText = "PR_Country_UpdateByPK";
                 objCom.ExecuteNonQuery();
@@ -113,7 +113,7 @@ public partial class AdminPanel_Country_CountryAddEdit : System.Web.UI.Page
         Response.Redirect("~/AdminPanel/Country/CountryList.aspx", true);
     }
 
-    protected void FillControls(SqlInt32 CountryID)
+    protected void FillControls(string CountryID)
     {
         SqlConnection objCon = new SqlConnection(ConfigurationManager.ConnectionStrings["AddressBook2ConnectionString"].ConnectionString);
         try

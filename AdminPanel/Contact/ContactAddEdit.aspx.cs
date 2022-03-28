@@ -23,9 +23,10 @@ public partial class AdminPanel_Contact_ContactAddEdit : System.Web.UI.Page
             if (Page.RouteData.Values["ContactId"] != null)
             {
                 btnSave.Text = "Update";
+                imgContactPhotoPath.Visible = true;
                 //lblMessage.Text += "Edit mode | ContactID = " + Request.QueryString["ContactId"];
-                FillControls(Convert.ToInt32(Page.RouteData.Values["ContactId"]));
-                FillCheckedCBLContactCategoryID(Convert.ToInt32(Page.RouteData.Values["ContactId"]));
+                FillControls(EncodeDecode.Base64Decode(Page.RouteData.Values["ContactId"].ToString().Trim()));
+                FillCheckedCBLContactCategoryID(EncodeDecode.Base64Decode(Page.RouteData.Values["ContactId"].ToString().Trim()));
             }
             //else
             //{
@@ -199,7 +200,7 @@ public partial class AdminPanel_Contact_ContactAddEdit : System.Web.UI.Page
     //#endregion Fill City DropDown
      
     #region Fill Controls
-    protected void FillControls(SqlInt32 ContactID)
+    protected void FillControls(string ContactID)
     {
         SqlConnection objConn = new SqlConnection(ConfigurationManager.ConnectionStrings["AddressBook2ConnectionString"].ConnectionString);
 
@@ -513,7 +514,7 @@ public partial class AdminPanel_Contact_ContactAddEdit : System.Web.UI.Page
 
             if (Page.RouteData.Values["ContactID"] != null)
             {
-                objCmd.Parameters.AddWithValue("@ContactID", Page.RouteData.Values["ContactID"]);
+                objCmd.Parameters.AddWithValue("@ContactID", EncodeDecode.Base64Decode(Page.RouteData.Values["ContactID"].ToString().Trim()));
                 objCmd.CommandText = "[dbo].[PR_Contact_UpdateByPK]";
                 objCmd.ExecuteNonQuery();
                 Response.Redirect("~/AdminPanel/Contact/ContactList.aspx");
@@ -569,7 +570,7 @@ public partial class AdminPanel_Contact_ContactAddEdit : System.Web.UI.Page
                 txtLinkedIn.Text = "";
                 txtWhatsApp.Text = "";
                 ddlCountry.Focus();
-                lblMessage.Text = "Data Inserted Successfully <br /> ContactID = " + ContactID.ToString();
+                lblMessage.Text = "Data Inserted Successfully";
             }
             objConn.Close();
         }
@@ -627,7 +628,7 @@ public partial class AdminPanel_Contact_ContactAddEdit : System.Web.UI.Page
     #endregion Fill CheckBoxList ContactCategory
 
     #region Fill CheckBoxList Checked Items
-    private void FillCheckedCBLContactCategoryID(SqlInt32 ContacttID)
+    private void FillCheckedCBLContactCategoryID(string ContacttID)
     {
         SqlConnection objConn = new SqlConnection(ConfigurationManager.ConnectionStrings["AddressBook2ConnectionString"].ConnectionString);
         try

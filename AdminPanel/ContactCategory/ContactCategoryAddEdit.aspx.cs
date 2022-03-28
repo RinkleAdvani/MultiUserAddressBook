@@ -20,7 +20,7 @@ public partial class AdminPanel_ContactCategory_ContactCategoryAddEdit : System.
             {
                 btnSave.Text = "Update";
                 //lblMessage.Text += "Edit mode | ContactCategoryID = " + Request.QueryString["ContactCategoryId"];
-                FillControls(Convert.ToInt32(Page.RouteData.Values["ContactCategoryId"]));
+                FillControls(EncodeDecode.Base64Decode(Page.RouteData.Values["ContactCategoryId"].ToString().Trim()));
             }
         }
 
@@ -73,10 +73,10 @@ public partial class AdminPanel_ContactCategory_ContactCategoryAddEdit : System.
 
             objCom.Parameters.AddWithValue("@ContactCategoryName", strContactCategoryName);
 
-            if (Request.QueryString["ContactCategoryID"] != null)
+            if (Page.RouteData.Values["ContactCategoryID"] != null)
             {
                 #region Update Record
-                objCom.Parameters.AddWithValue("@ContactCategoryID", Request.QueryString["ContactCategoryID"].ToString().Trim());
+                objCom.Parameters.AddWithValue("@ContactCategoryID", EncodeDecode.Base64Decode(Page.RouteData.Values["ContactCategoryID"].ToString().Trim()));
                 objCom.CommandText = "PR_ContactCategory_UpdateByPK";
                 if (Session["UserID"] != null)
                 {
@@ -125,7 +125,7 @@ public partial class AdminPanel_ContactCategory_ContactCategoryAddEdit : System.
     #endregion Button : Cancel
 
     #region Fill Controls
-    protected void FillControls(SqlInt32 ContactCategoryID)
+    protected void FillControls(string ContactCategoryID)
     {
         SqlConnection objConn = new SqlConnection(ConfigurationManager.ConnectionStrings["AddressBook2ConnectionString"].ConnectionString);
         try

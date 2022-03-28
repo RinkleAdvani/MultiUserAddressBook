@@ -18,11 +18,11 @@ public partial class AdminPanel_City_CityAddEdit : System.Web.UI.Page
         {
             FillDropDownList();
 
-            if (Page.RouteData.Values["CityId"] != null)
+            if (Page.RouteData.Values["CityID"] != null)
             {
                 btnSave.Text = "Update";
                 //lblMessage.Text += "Edit mode | CityID = " + Request.QueryString["CityId"];
-                FillControls(Convert.ToInt32(Page.RouteData.Values["CityId"]));
+                FillControls(EncodeDecode.Base64Decode(Page.RouteData.Values["CityID"].ToString().Trim()));
             }
         }
     }
@@ -216,10 +216,10 @@ public partial class AdminPanel_City_CityAddEdit : System.Web.UI.Page
             objCmd.Parameters.AddWithValue("@PinCode", strSTDCode);
             #endregion Add Parameters
 
-            if (Request.QueryString["CityID"] != null)
+            if (Page.RouteData.Values["CityID"] != null)
             {
                 #region Update Record
-                objCmd.Parameters.AddWithValue("@CityID", Request.QueryString["CityID"]);
+                objCmd.Parameters.AddWithValue("@CityID", EncodeDecode.Base64Decode(Page.RouteData.Values["CityID"].ToString().Trim()));
                 objCmd.CommandText = "PR_City_UpdateByPK";
                 objCmd.ExecuteNonQuery();
                 Response.Redirect("~/AdminPanel/City/CityList.aspx");
@@ -267,7 +267,7 @@ public partial class AdminPanel_City_CityAddEdit : System.Web.UI.Page
     #endregion Button : Cancel
 
     #region Fill Controls
-    protected void FillControls(SqlInt32 CityID)
+    protected void FillControls(string CityID)
     {
         SqlConnection objConn = new SqlConnection(ConfigurationManager.ConnectionStrings["AddressBook2ConnectionString"].ConnectionString);
         try

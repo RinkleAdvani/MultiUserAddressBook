@@ -22,7 +22,7 @@ public partial class AdminPanel_State_StateAddEdit : System.Web.UI.Page
             {
                 btnSave.Text = "Update";
                 //lblMessage.Text += "Edit mode | StateID = " + Request.QueryString["StateId"];
-                FillControls(Convert.ToInt32(Page.RouteData.Values["StateId"]));
+                FillControls(EncodeDecode.Base64Decode(Page.RouteData.Values["StateId"].ToString().Trim()));
                 //FillControls(Convert.ToInt32(Request.QueryString["StateId"]));
             }
         }
@@ -105,11 +105,11 @@ public partial class AdminPanel_State_StateAddEdit : System.Web.UI.Page
             #endregion Set Connection And Command Object
 
 
-            if (Request.QueryString["StateID"] != null)
+            if (Page.RouteData.Values["StateID"] != null)
             {
                 #region Update Record
                 // Edit Mode
-                objCmd.Parameters.AddWithValue("@StateID", Request.QueryString["StateID"].ToString().Trim());
+                objCmd.Parameters.AddWithValue("@StateID", EncodeDecode.Base64Decode(Page.RouteData.Values["StateID"].ToString().Trim()));
                 objCmd.CommandText = "PR_State_UpdateByPK";
                 objCmd.ExecuteNonQuery();
                 Response.Redirect("~/AdminPanel/State/StateList.aspx", true);
@@ -193,7 +193,7 @@ public partial class AdminPanel_State_StateAddEdit : System.Web.UI.Page
     #endregion Fill DropDownList
 
     #region Fill Controls
-    protected void FillControls(SqlInt32 StateID)
+    protected void FillControls(string StateID)
     {
         SqlConnection objConn = new SqlConnection(ConfigurationManager.ConnectionStrings["AddressBook2ConnectionString"].ConnectionString);
         try

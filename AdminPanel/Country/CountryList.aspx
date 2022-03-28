@@ -32,8 +32,10 @@
                         <asp:BoundField DataField="CountryCode" HeaderText="Code" />
                         <asp:TemplateField HeaderText="Action">
                             <ItemTemplate>
-                                <asp:HyperLink ID="hlEdit" runat="server" Text="Edit" CssClass="btn btn-sm btn-primary" NavigateUrl='<%# "~/AdminPanel/Country/Edit/" + Eval("CountryID").ToString() %>'></asp:HyperLink>
+                                <asp:HyperLink ID="hlEdit" runat="server" Text="Edit" CssClass="btn btn-sm btn-primary" NavigateUrl='<%# "~/AdminPanel/Country/Edit/" + EncodeDecode.Base64Encode(Eval("CountryID").ToString()) %>'></asp:HyperLink>
+
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
                             <asp:Button ID="btnDelete" runat="server" Text="Delete" CssClass="btn btn-sm btn-danger" CommandName="DeleteRecord" CommandArgument='<%# Eval("CountryID").ToString() %>'></asp:Button>
                             </ItemTemplate>
                         </asp:TemplateField>
